@@ -1,5 +1,9 @@
 name: 'Get Ticket ID'
 description: 'Obtains the ticket ID referenced in the branch name'
+author: 'gbh-tech'
+branding:
+  icon: 'tag'
+  color: 'gray-dark'
 
 inputs:
   ref:
