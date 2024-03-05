@@ -1,0 +1,38 @@
+name: 'Get Ticket ID'
+description: 'Obtains the ticket ID referenced in the branch name'
+
+inputs:
+  ref:
+    description: 'The git ref to obtain the Ticket ID from'
+    required: false
+
+outputs:
+  ticket-id:
+    description: 'Ticket ID'
+    value: ${{ steps.get-ticket-id.outputs.ticket-id }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Obtain the ticket ID from a given git ref
+      id: get-ticket-id
+      shell: bash -leo pipefail {0}
+      env:
+        GIT_REF: ${{ inputs.ref || github.head_ref || github.ref_name }}
+      run: |
+        get_ticket_id() {
+          DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+
+          if [[ "${GIT_REF}" =~ "${DEFAULT_BRANCH}" ]]; then
+            echo "${DEFAULT_BRANCH}-branch"
+          elif [[ ${GIT_REF} =~ [A-Z]{2,}-[0-9]+ ]]; then
+            ID=$(echo "${GIT_REF}" | grep -oE '[A-Z]{2,}-[0-9]+' | tr '[:upper:]' '[:lower:]')
+            echo "${ID}"
+          else
+            echo "Error: Ref ${GIT_REF} does not follow the expected convention or is not ${DEFAULT_BRANCH}."
+            exit 1
+          fi
+        }
+
+        echo "ticket-id=$(get_ticket_id)" >> $GITHUB_OUTPUT
+        echo "TICKET_ID=$(get_ticket_id)" >> $GITHUB_ENV
