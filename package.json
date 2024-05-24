@@ -1,5 +1,5 @@
 {
-  "name": "gbh-terraform",
+  "name": "get-ticket-id-action",
   "version": "2.0.2",
   "scripts": {
     "prepare": "husky"
