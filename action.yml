@@ -29,8 +29,8 @@ runs:
 
           if [[ "${GIT_REF}" =~ "${DEFAULT_BRANCH}" ]]; then
             echo "${DEFAULT_BRANCH}-branch"
-          elif [[ ${GIT_REF} =~ [A-Z]{2,}-[0-9]+ ]]; then
-            ID=$(echo "${GIT_REF}" | grep -oE '[A-Z]{2,}-[0-9]+' | tr '[:upper:]' '[:lower:]')
+          elif [[ ${GIT_REF} =~ [A-Za-z]{2,}-[0-9]+ ]]; then
+            ID=$(echo "${GIT_REF}" | grep -oE '[A-Za-z]{2,}-[0-9]+' | tr '[:upper:]' '[:lower:]')
             echo "${ID}"
           else
             echo "Error: Ref ${GIT_REF} does not follow the expected convention or is not ${DEFAULT_BRANCH}."
