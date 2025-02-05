@@ -28,15 +28,16 @@ runs:
           DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
 
           if [[ "${GIT_REF}" =~ "${DEFAULT_BRANCH}" ]]; then
-            echo "${DEFAULT_BRANCH}-branch"
+            echo "ticket-id=${DEFAULT_BRANCH}-branch" >> "$GITHUB_OUTPUT"
+            echo "TICKET_ID=${DEFAULT_BRANCH}-branch" >> "$GITHUB_ENV"
           elif [[ ${GIT_REF} =~ [A-Za-z]{2,}-[0-9]+ ]]; then
             ID=$(echo "${GIT_REF}" | grep -oE '[A-Za-z]{2,}-[0-9]+' | tr '[:upper:]' '[:lower:]')
-            echo "${ID}"
+            echo "ticket-id=${ID}" >> "$GITHUB_OUTPUT"
+            echo "TICKET_ID=${ID}" >> "$GITHUB_ENV"
           else
             echo "Error: Ref ${GIT_REF} does not follow the expected convention or is not ${DEFAULT_BRANCH}."
             exit 1
           fi
         }
 
-        echo "ticket-id=$(get_ticket_id)" >> $GITHUB_OUTPUT
-        echo "TICKET_ID=$(get_ticket_id)" >> $GITHUB_ENV
+        get_ticket_id
