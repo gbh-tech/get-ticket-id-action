@@ -7,9 +7,9 @@
   "dependencies": {},
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
-    "@release-it/conventional-changelog": "^8.0.1",
+    "@release-it/conventional-changelog": "^10.0.4",
     "commitlint": "^19.3.0",
     "husky": "^9.0.11",
-    "release-it": "^17.2.0"
+    "release-it": "^19.2.4"
   }
 }
